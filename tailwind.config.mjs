@@ -10,6 +10,10 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        'rose-red': '#ffea00', 
+        'rose-pink': '#F5B7B1', 
+        'ivory': '#FDF3E7',     
+        'leaf-green': '#7DCEA0', 
       },
     },
   },
