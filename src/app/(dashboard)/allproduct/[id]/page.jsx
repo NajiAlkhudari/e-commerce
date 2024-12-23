@@ -1,6 +1,6 @@
 
+export const dynamic = 'force-dynamic';
 
-'use server';
 
 import { fetchProductById } from '@/app/services/productService'; 
 import ProductClient from './ProductClient';
