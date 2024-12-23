@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 async function fetchProducts() {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/myproduct`, {
+    const response = await fetch(`${process.env.MONGODB_URI}/myproduct`, {
       cache: 'no-store',
     });
     if (!response.ok) {

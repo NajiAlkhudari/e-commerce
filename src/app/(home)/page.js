@@ -8,7 +8,7 @@ import axios from 'axios';
 
 export async function fetchProductsAppear() {
   try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/product`, { cache: 'no-store' });
+    const response = await axios.get(`${process.env.MONGODB_URI}/product`, { cache: 'no-store' });
     return response.data.products;  
   } catch (error) {
     console.error("Error fetching products:", error);
