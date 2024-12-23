@@ -13,10 +13,8 @@ export const middleware = async (req) => {
   }
 
   try {
-    // التحقق من التوكن
     const decoded = await verifyToken(token);
 
-    // التحقق من الدور
     if (decoded.role !== "admin") {
       return NextResponse.json(
         { message: "Forbidden: You don't have the required role" },

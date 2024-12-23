@@ -1,7 +1,20 @@
+export const dynamic = 'force-dynamic';
+
+
 import Card from '@/components/ui/Card';
-import { fetchProductsAppear } from '@/app/services/productService';
 import Image from 'next/image';
 import AddToCartButton from '@/components/ui/AddToCartButton'; 
+import axios from 'axios';
+
+export async function fetchProductsAppear() {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/product`, { cache: 'no-store' });
+    return response.data.products;  
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw new Error('Failed to fetch products');
+  }
+}
 
 export default async function Page() {
   const products = await fetchProductsAppear();
