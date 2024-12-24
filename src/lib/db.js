@@ -8,8 +8,7 @@ const connectDB = async () => {
         if (mongoose.connection.readyState === 0) {
             await mongoose.connect(process.env.MONGODB_URI, {
                 dbName : 'ecommerce',
-                useNewUrlParser : true,
-                useUnifiedTopology : true,
+                
 
             });
             console.log('MongoDB connected');
