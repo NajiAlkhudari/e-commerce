@@ -7,7 +7,7 @@ export const login = createAsyncThunk('auth/login', async ({ email, password }, 
   const { rejectWithValue } = thunkAPI;
 
   try {
-    const response = await axios.post('http://localhost:3000/api/login', { email, password });
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, { email, password });
 
   
     const { token } = response.data;
