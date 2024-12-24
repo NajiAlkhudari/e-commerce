@@ -37,6 +37,16 @@ This project is a full-stack e-commerce application built using Next.js. The app
 4.  Run the development server:
    
     `npm run dev`
+---------
+## Test Accounts
+
+### Admin
+- **Email:** najikh98@gmail.com  
+- **Password:** 12345678  
+
+### Customer
+- **Email:** ahmad89@gmail.com  
+- **Password:** 12345678  
 
   ----------
 ## Authors
