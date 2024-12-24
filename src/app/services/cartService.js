@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export const fetchCartData = async (customerId) => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/shoppingcart?customer_id=${customerId}`, {
+      const response = await axios.get(`${process.env.MONGODB_URI}/api/shoppingcart?customer_id=${customerId}`, {
         cache: "no-store",
       });
       return response.data.carts; 
@@ -22,7 +22,7 @@ export const fetchCartData = async (customerId) => {
 
   export const addItemToCart = async ({ customerId, productId, quantity }) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cartItem`, {
+      const response = await fetch(`${process.env.MONGODB_URI}/api/cartItem`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ export const fetchCartData = async (customerId) => {
       throw new Error('Customer ID and Product ID are required');
     }
   
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cartItem`, {
+    const response = await fetch(`${process.env.MONGODB_URI}/api/cartItem`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

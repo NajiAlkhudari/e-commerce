@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export async function fetchProducts() {
   try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/myproduct`, { cache: 'no-store' });
+    const response = await axios.get(`${process.env.MONGODB_URI}/api/myproduct`, { cache: 'no-store' });
     return response.data.products;  
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -14,7 +14,7 @@ export async function fetchProducts() {
 
 export async function fetchProductsAppear() {
   try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/product`, { cache: 'no-store' });
+    const response = await axios.get(`${process.env.MONGODB_URI}/api/product`, { cache: 'no-store' });
     return response.data.products;  
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -29,7 +29,7 @@ export const deleteProduct = async (productId) => {
     throw new Error('Product ID is required');
   }
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/${productId}`, {
+  const response = await fetch(`${process.env.MONGODB_URI}/api/product/${productId}`, {
     method: 'DELETE',
   });
 
@@ -41,7 +41,7 @@ export const deleteProduct = async (productId) => {
 };
 
 export const updateProduct = async (product) => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/${product._id}`, {
+  const response = await fetch(`${process.env.MONGODB_URI}/api/product/${product._id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ export async function fetchProductById(productId) {
   }
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/${productId}`);
+    const res = await fetch(`${process.env.MONGODB_URI}/api/product/${productId}`);
 
     if (!res.ok) {
       throw new Error('Failed to fetch product');
