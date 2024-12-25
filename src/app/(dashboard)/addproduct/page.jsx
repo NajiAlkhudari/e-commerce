@@ -42,7 +42,7 @@ const page = () => {
     formData.append('image', image);
 
     try {
-      const response = await axios.post('/api/product', formData, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/product`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

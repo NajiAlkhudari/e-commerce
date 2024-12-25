@@ -11,7 +11,7 @@ export const GET = async (req) => {
   try {
     await connectDB(); 
 
-    await jwtMiddleware(req);  
+    // await jwtMiddleware(req);  
 
     const products = await Product.find(); 
     return NextResponse.json({ products }, { status: 200 });
