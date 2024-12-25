@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import Cookies from 'js-cookie';  // استيراد مكتبة js-cookie لتخزين التوكن في الكوكيز
+import Cookies from 'js-cookie';  
 
-// createAsyncThunk لتسجيل الدخول
 export const login = createAsyncThunk('auth/login', async ({ email, password }, thunkAPI) => {
   const { rejectWithValue } = thunkAPI;
 
