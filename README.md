@@ -18,7 +18,7 @@ This project is a full-stack e-commerce application built using Next.js. The app
 ------
 ### Deployment
 
--   **Vercel:** For hosting the application.
+-   **Vercel:**  hosting : https://e-commerce-black-seven-91.vercel.app/ 
 --------
 ## Installation
 1.  Clone the repository:
