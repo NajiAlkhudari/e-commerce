@@ -19,6 +19,8 @@ const Headerdash = () => {
   const [isLoginOpen, setLoginOpen] = useState(false);
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const router = useRouter();
+  const user = useSelector(state => state.auth.user);
+
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -46,10 +48,15 @@ const Headerdash = () => {
 
         <div className="text-2xl font-bold text-white">My Dashboard</div>
 
-        <button className="text-white" onClick={() => setLoginOpen(true)}>
-          <MdAccountCircle />
-          Login
-        </button>
+        {isAuthenticated ? (
+              <p className="text-gray-800 flex justify-center text-center ">
+                Welcome {user.name}</p>  
+            ) : (
+              <button className="text-gray-800" onClick={() => setLoginOpen(true)}>
+                <MdAccountCircle />
+                Login
+              </button>
+            )}
         <Modal isOpen={isLoginOpen} onClose={() => setLoginOpen(false)}>
           <Login />
         </Modal>

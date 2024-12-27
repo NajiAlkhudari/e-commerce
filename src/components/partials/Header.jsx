@@ -17,6 +17,7 @@ const Header = () => {
   const [isCartOpen, setCartOpen] = useState(false); 
   const [showLoginMessage, setShowLoginMessage] = useState(false); 
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const user = useSelector(state => state.auth.user);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -57,10 +58,15 @@ const Header = () => {
         <nav className="hidden sm:flex items-center space-x-4 text-sm sm:text-base lg:text-lg text-black">
           <div className="border-l border-gray-600 h-6"></div>
           <div className="flex space-x-2">
-            <button className="text-gray-800" onClick={() => setLoginOpen(true)}>
-              <MdAccountCircle />
-              Login
-            </button>
+            {isAuthenticated ? (
+              <p className="text-gray-800 flex justify-center text-center ">
+                Welcome {user.name}</p>  
+            ) : (
+              <button className="text-gray-800" onClick={() => setLoginOpen(true)}>
+                <MdAccountCircle />
+                Login
+              </button>
+            )}
             <Modal
               className="divide-y divide-blue-200"
               isOpen={isLoginOpen}
@@ -95,21 +101,25 @@ const Header = () => {
       {isMobileMenuOpen && (
         <nav className="sm:hidden mt-4">
           <div className="flex space-x-2">
-            <button className="text-black" onClick={() => setLoginOpen(true)}>
-              <MdAccountCircle />
-              Login
-            </button>
+            {isAuthenticated ? (
+              <p className="text-black flex text-center justify-center">  Welcome {user.name}</p> 
+            ) : (
+              <button className="text-black" onClick={() => setLoginOpen(true)}>
+                <MdAccountCircle />
+                Login
+              </button>
+            )}
             <Modal
               className="divide-y divide-blue-200"
               isOpen={isLoginOpen}
               onClose={() => setLoginOpen(false)}
             >
-              <Login />
+              <Login  className="top-0"/>
             </Modal>
           </div>
           <a
             href="#"
-            className="hover:text-ivory text-black"
+            className=" text-black"
             onClick={handleCartClick} 
           >
             <FaCartShopping />
@@ -119,8 +129,7 @@ const Header = () => {
       )}
 
       {showLoginMessage && (
-      <Notification title="Please log in to access your cart" />
-    
+        <Notification title="Please log in to access your cart" />
       )}
 
       <Modal
@@ -134,6 +143,3 @@ const Header = () => {
 };
 
 export default Header;
-
-
-
