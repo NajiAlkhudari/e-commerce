@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './authSlice'; // استيراد slice الخاص بـ auth
+import authReducer from './authSlice'; 
 const store = configureStore({
   reducer: {
-    auth: authReducer, // إضافة reducer الخاص بالمصادقة
+    auth: authReducer, 
   },
 });
 

@@ -66,7 +66,7 @@ export const PUT = async (req, { params }) => {
     if (price) product.price = price;
     if (stock) product.stock = stock;
     if (description) product.description = description;
-    if (isVisibility !== undefined) product.isVisibility = isVisibility;  // Check for undefined
+    if (isVisibility !== undefined) product.isVisibility = isVisibility;  
 
     console.log('Updated product:', product);
 

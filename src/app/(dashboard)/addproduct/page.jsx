@@ -15,7 +15,6 @@ const page = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  // التعامل مع تغيير الصورة
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
