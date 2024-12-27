@@ -21,7 +21,7 @@ const Header = () => {
   useEffect(() => {
     if (isAuthenticated) {
       setLoginOpen(false);  
-      setShowLoginMessage(false); // Hide message once authenticated
+      setShowLoginMessage(false); 
     }
   }, [isAuthenticated]);
 
@@ -40,7 +40,6 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 bg-rose-red px-4 py-4 sm:py-4 sm:px-6 lg:py-0 lg:px-0">
       <div className="container mx-auto flex justify-between items-center">
-        {/* Social Media Links */}
         <div className="flex space-x-4 text-2xl text-gray-800">
           <a href="#" className="">
             <FaInstagram />
