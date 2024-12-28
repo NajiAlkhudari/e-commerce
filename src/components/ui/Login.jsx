@@ -98,7 +98,6 @@ useEffect(() => {
                             
                             {loading ? 'Logging in...' : 'Login'}
                         </Button>
-                              <ToastContainer />
                         
                     </div>
                 </div>
