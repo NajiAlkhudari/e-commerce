@@ -1,22 +1,89 @@
+
+
+
 import { useEffect, useState } from "react";
 import { fetchCartData } from "@/app/services/cartService";
 import { useSelector } from 'react-redux';
-import { handleDelete } from './handleDelete';  
+import { handleDelete } from './handleDelete';
 
 const ShoppingCartModal = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);  
+  const [successMessage, setSuccessMessage] = useState(null);
   const customerId = useSelector(state => state.auth.user?.id);
 
-  const handleIncrease = (id) => {
-    console.log("Increase product:", id);
+  const handleIncrease = async (productId) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cartItem`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          customer_id: customerId,
+          product_id: productId,
+          action: 'increase',
+        }),
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        setCartItems((prevItems) =>
+          prevItems.map((item) =>
+            item.product_id._id === productId
+              ? { ...item, quantity: item.quantity + 1, total_price: (item.quantity + 1) * item.product_id.price }
+              : item
+          )
+        );
+        setSuccessMessage(data.message);
+      } else {
+        setError(data.message);
+      }
+    } catch (err) {
+      console.error("Error increasing quantity:", err);
+      setError("There was an issue increasing the quantity.");
+    }
   };
 
-  const handleDecrease = (id) => {
-    console.log("Decrease product:", id);
+  const handleDecrease = async (productId) => {
+    try {
+      const response = await fetch(`/api/cartItem`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          customer_id: customerId,
+          product_id: productId,
+          action: 'decrease',
+        }),
+      });
+      const data = await response.json();
+  
+      if (response.ok) {
+        if (data.message === "Product removed from cart") {
+          setCartItems((prevItems) => prevItems.filter(item => item.product_id._id !== productId));
+          setSuccessMessage("Product removed from cart.");
+        } else {
+          setCartItems((prevItems) =>
+            prevItems.map((item) =>
+              item.product_id._id === productId
+                ? { ...item, quantity: item.quantity - 1, total_price: (item.quantity - 1) * item.product_id.price }
+                : item
+            )
+          );
+          setSuccessMessage(data.message);
+        }
+      } else {
+        setError(data.message);
+      }
+    } catch (err) {
+      console.error("Error decreasing quantity:", err);
+      setError("There was an issue decreasing the quantity.");
+    }
   };
+  
 
   const handleDeleteProduct = async (productId) => {
     try {
@@ -24,9 +91,9 @@ const ShoppingCartModal = () => {
 
       if (result.success) {
         setCartItems((prevItems) => prevItems.filter(item => item.product_id._id !== productId));
-        setSuccessMessage(result.message);  
+        setSuccessMessage(result.message);
       } else {
-        setError(result.message);  
+        setError(result.message);
       }
     } catch (error) {
       console.error("Error deleting product:", error);
@@ -83,13 +150,13 @@ const ShoppingCartModal = () => {
                 </div>
                 <div className="flex space-x-2">
                   <button 
-                    onClick={() => handleDecrease(item._id)} 
+                    onClick={() => handleDecrease(product._id)} 
                     className="px-3 py-1 text-sm text-white bg-gray-500 hover:bg-gray-600 rounded-lg"
                   >
                     -
                   </button>
                   <button 
-                    onClick={() => handleIncrease(item._id)} 
+                    onClick={() => handleIncrease(product._id)} 
                     className="px-3 py-1 text-sm text-white bg-gray-500 hover:bg-gray-600 rounded-lg"
                   >
                     +
@@ -108,8 +175,6 @@ const ShoppingCartModal = () => {
       ) : (
         <p>Your cart is empty</p>
       )}
-
-     
       {successMessage && <p className="text-green-600">{successMessage}</p>}
       {error && <p className="text-red-600">{error}</p>}
     </div>

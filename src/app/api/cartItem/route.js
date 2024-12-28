@@ -181,3 +181,61 @@ export const PUT = async (req) => {
 };
 
 
+
+
+
+
+export const PATCH = async (req) => {
+  await connectDB();
+
+  try {
+    const { customer_id, product_id, action } = await req.json();
+
+    if (!customer_id || !product_id || !action) {
+      return NextResponse.json({ message: "Missing parameters" }, { status: 400 });
+    }
+
+    const cart = await ShoppingCart.findOne({ customer_id });
+    if (!cart) {
+      return NextResponse.json({ message: "Shopping cart not found" }, { status: 404 });
+    }
+
+    const cartItem = await CartItem.findOne({ cart_id: cart._id, product_id });
+    if (!cartItem) {
+      return NextResponse.json({ message: "Product not found in shopping cart" }, { status: 404 });
+    }
+
+    const product = await Product.findById(product_id);  
+    console.log("Product data:", product);
+
+    if (!product || typeof product.price !== 'number' || isNaN(product.price)) {
+      return NextResponse.json({ message: "Invalid product price" }, { status: 400 });
+    }
+
+    if (action === 'increase') {
+      cartItem.quantity += 1;
+    } else if (action === 'decrease') {
+      if (cartItem.quantity <= 1) {
+        // حذف المنتج إذا كانت الكمية ستصبح 0
+        await CartItem.deleteOne({ _id: cartItem._id });
+        return NextResponse.json({ message: "Product removed from cart" }, { status: 200 });
+      }
+      cartItem.quantity -= 1;
+    } else {
+      return NextResponse.json({ message: "Invalid action" }, { status: 400 });
+    }
+
+    cartItem.total_price = cartItem.quantity * product.price;
+
+    if (isNaN(cartItem.total_price)) {
+      return NextResponse.json({ message: "Invalid total price calculation" }, { status: 400 });
+    }
+
+    await cartItem.save();
+
+    return NextResponse.json({ message: "Quantity updated", cartItem }, { status: 200 });
+  } catch (error) {
+    console.error("Error updating cart item:", error);
+    return NextResponse.json({ message: "Error updating quantity", error: error.message }, { status: 500 });
+  }
+};
