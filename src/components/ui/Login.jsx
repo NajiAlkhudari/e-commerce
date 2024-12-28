@@ -6,9 +6,6 @@ import Button from './Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '@/store/authSlice';
 import { useRouter } from 'next/navigation'; 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -17,21 +14,7 @@ const Login = () => {
     const { loading, error, isAuthenticated , role } = useSelector((state) => state.auth);
     
   
-    const notifyError = (message) => {
-        toast.error(message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: "colored",
-        });
-      };
-     
    
-      
-    
 useEffect(() => {
     if (isAuthenticated) {
         if (role === "admin") {
@@ -39,29 +22,12 @@ useEffect(() => {
         } else if (role === "user") {
             router.push('/');
         }
-        
     }
-}, [isAuthenticated]);  
+}, [isAuthenticated, role, router]);  
 console.log("the role is " , role , isAuthenticated , loading);
-
-
-useEffect(() => {
-    if (error) {
-      notifyError(error); 
-    }
-
-  }, [error]);
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!email || !password) {
-            notifyError("Email and password are required.");
-            return;
-          }
-          
         dispatch(login({ email, password }));
-   
-
     };
     return (
         <div>
@@ -87,7 +53,9 @@ useEffect(() => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                
+                    {error && (
+                        <div className="text-red-500 text-sm text-center">{error}</div>
+                    )}
                     <div className="p-4">
                         <Button
                             className=" w-full  py-3 px-32 rounded-md text-white text-lg font-medium bg-rose-red"
@@ -95,10 +63,8 @@ useEffect(() => {
                             onClick={handleSubmit}
                             disabled={loading} 
                         >
-                            
                             {loading ? 'Logging in...' : 'Login'}
                         </Button>
-                        
                     </div>
                 </div>
             </Card>
