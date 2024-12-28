@@ -5,24 +5,23 @@ import { MdAccountCircle } from "react-icons/md";
 import { AiOutlineFacebook } from "react-icons/ai";
 import { FaInstagram } from "react-icons/fa";
 import Modal from "../ui/modal/Modal";
-import Login from "../ui/Login";
 import ShoppingCartModal from "../ui/ShoppingCart"; 
+import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import Notification from "../ui/Notification";
-import { BsChevronDown } from 'react-icons/bs'; // أيقونة السهم المنسدل
+import { BsChevronDown } from 'react-icons/bs'; 
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isLoginOpen, setLoginOpen] = useState(false);
   const [isCartOpen, setCartOpen] = useState(false); 
   const [showLoginMessage, setShowLoginMessage] = useState(false); 
-  const [isDropdownOpen, setDropdownOpen] = useState(false); // حالة لفتح القائمة المنسدلة
+  const [isDropdownOpen, setDropdownOpen] = useState(false); 
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const user = useSelector(state => state.auth.user);
+  const router = useRouter(); 
 
   useEffect(() => {
     if (isAuthenticated) {
-      setLoginOpen(false);  
       setShowLoginMessage(false); 
     }
   }, [isAuthenticated]);
@@ -40,7 +39,11 @@ const Header = () => {
   };
 
   const toggleDropdown = () => {
-    setDropdownOpen(!isDropdownOpen); // التبديل بين فتح وغلق القائمة المنسدلة
+    setDropdownOpen(!isDropdownOpen); 
+  };
+
+  const navigateToLogin = () => {
+    router.push('/login');
   };
 
   return (
@@ -65,19 +68,20 @@ const Header = () => {
           <div className="flex space-x-2">
             {isAuthenticated ? (
               <p className="text-gray-800 flex justify-center text-center ">
-                Welcome {user.name}</p>  
+                Welcome {user.name}
+              </p>  
             ) : (
               <div className="relative">
                 <button className="text-gray-800 flex items-center" onClick={toggleDropdown}>
                   <MdAccountCircle />
                   Account
-                  <BsChevronDown className="ml-2" /> {/* أيقونة السهم المنسدل */}
+                  <BsChevronDown className="ml-2" /> 
                 </button>
                 {isDropdownOpen && (
-                  <div className="absolute bg-white   shadow-lg rounded-md mt-2 w-32">
+                  <div className="absolute bg-white shadow-lg rounded-md mt-2 w-32">
                     <button
-                      className="block w-full text-wh  text-center  px-4 py-2 text-sm  text-gray-950"
-                      onClick={() => setLoginOpen(true)}
+                      className="block w-full text-center text-gray-950 px-4 py-2 text-sm"
+                      onClick={navigateToLogin}
                     >
                       Log In
                     </button>
@@ -91,22 +95,15 @@ const Header = () => {
                 )}
               </div>
             )}
-            <Modal
-              className="divide-y divide-blue-200"
-              isOpen={isLoginOpen}
-              onClose={() => setLoginOpen(false)}
-            >
-              <Login />
-            </Modal>
           </div>
           <div className="border-l border-gray-600 h-6"></div>
           <a
             href="#"
-            className="text-gray-800"
+            className="text-gray-800 flex items-center"
             onClick={handleCartClick} 
           >
-            <FaCartShopping />
-            cart
+            <FaCartShopping className="mr-2" />
+            Cart
           </a>
         </nav>
 
@@ -126,7 +123,9 @@ const Header = () => {
         <nav className="sm:hidden mt-4">
           <div className="flex space-x-2">
             {isAuthenticated ? (
-              <p className="text-black flex text-center justify-center">  Welcome {user.name}</p> 
+              <p className="text-black flex text-center justify-center">
+                Welcome {user.name}
+              </p> 
             ) : (
               <div className="relative">
                 <button className="text-black flex items-center" onClick={toggleDropdown}>
@@ -138,7 +137,7 @@ const Header = () => {
                   <div className="absolute bg-white shadow-lg rounded-md mt-2 w-32">
                     <button
                       className="block w-full text-left text-black px-4 py-2 text-sm"
-                      onClick={() => setLoginOpen(true)}
+                      onClick={navigateToLogin}
                     >
                       Log In
                     </button>
@@ -152,21 +151,14 @@ const Header = () => {
                 )}
               </div>
             )}
-            <Modal
-              className="divide-y divide-blue-200"
-              isOpen={isLoginOpen}
-              onClose={() => setLoginOpen(false)}
-            >
-              <Login className="top-0"/>
-            </Modal>
           </div>
           <a
             href="#"
-            className="text-black"
+            className="text-black flex items-center"
             onClick={handleCartClick} 
           >
-            <FaCartShopping />
-            cart
+            <FaCartShopping className="mr-2" />
+            Cart
           </a>
         </nav>
       )}
