@@ -9,13 +9,14 @@ import Login from "../ui/Login";
 import ShoppingCartModal from "../ui/ShoppingCart"; 
 import { useSelector } from 'react-redux';
 import Notification from "../ui/Notification";
-
+import { BsChevronDown } from 'react-icons/bs'; // أيقونة السهم المنسدل
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoginOpen, setLoginOpen] = useState(false);
   const [isCartOpen, setCartOpen] = useState(false); 
   const [showLoginMessage, setShowLoginMessage] = useState(false); 
+  const [isDropdownOpen, setDropdownOpen] = useState(false); // حالة لفتح القائمة المنسدلة
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const user = useSelector(state => state.auth.user);
 
@@ -36,6 +37,10 @@ const Header = () => {
     } else {
       setShowLoginMessage(true); 
     }
+  };
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen); // التبديل بين فتح وغلق القائمة المنسدلة
   };
 
   return (
@@ -62,10 +67,29 @@ const Header = () => {
               <p className="text-gray-800 flex justify-center text-center ">
                 Welcome {user.name}</p>  
             ) : (
-              <button className="text-gray-800" onClick={() => setLoginOpen(true)}>
-                <MdAccountCircle />
-                Login
-              </button>
+              <div className="relative">
+                <button className="text-gray-800 flex items-center" onClick={toggleDropdown}>
+                  <MdAccountCircle />
+                  Account
+                  <BsChevronDown className="ml-2" /> {/* أيقونة السهم المنسدل */}
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute bg-white   shadow-lg rounded-md mt-2 w-32">
+                    <button
+                      className="block w-full text-wh  text-center  px-4 py-2 text-sm  text-gray-950"
+                      onClick={() => setLoginOpen(true)}
+                    >
+                      Log In
+                    </button>
+                    <a
+                      href="/register"
+                      className="block w-full text-center text-gray-950 px-4 py-2 text-sm"
+                    >
+                      Sign Up
+                    </a>
+                  </div>
+                )}
+              </div>
             )}
             <Modal
               className="divide-y divide-blue-200"
@@ -104,22 +128,41 @@ const Header = () => {
             {isAuthenticated ? (
               <p className="text-black flex text-center justify-center">  Welcome {user.name}</p> 
             ) : (
-              <button className="text-black" onClick={() => setLoginOpen(true)}>
-                <MdAccountCircle />
-                Login
-              </button>
+              <div className="relative">
+                <button className="text-black flex items-center" onClick={toggleDropdown}>
+                  <MdAccountCircle />
+                  Account
+                  <BsChevronDown className="ml-2" />
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute bg-white shadow-lg rounded-md mt-2 w-32">
+                    <button
+                      className="block w-full text-left text-black px-4 py-2 text-sm"
+                      onClick={() => setLoginOpen(true)}
+                    >
+                      Log In
+                    </button>
+                    <a
+                      href="/register"
+                      className="block w-full text-left text-black px-4 py-2 text-sm"
+                    >
+                      Sign Up
+                    </a>
+                  </div>
+                )}
+              </div>
             )}
             <Modal
               className="divide-y divide-blue-200"
               isOpen={isLoginOpen}
               onClose={() => setLoginOpen(false)}
             >
-              <Login  className="top-0"/>
+              <Login className="top-0"/>
             </Modal>
           </div>
           <a
             href="#"
-            className=" text-black"
+            className="text-black"
             onClick={handleCartClick} 
           >
             <FaCartShopping />

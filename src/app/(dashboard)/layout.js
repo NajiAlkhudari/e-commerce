@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import '../css/globals.css';
 import ReduxProvider from '../provider'; 
 import Headerdash from "@/components/partials/Headerdash";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -18,6 +19,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang="en">
       <head>
