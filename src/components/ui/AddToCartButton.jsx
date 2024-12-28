@@ -12,7 +12,7 @@ const AddToCartButton = ({ productId }) => {
   const customerId = useSelector((state) => state.auth.user?.id);
 
   const notifyLogin = () => {
-    toast.error('Please login before add product to cart' ,{
+    toast.info('Please login before add product to cart' ,{
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,

@@ -16,13 +16,16 @@ export const GET = async (req) => {
     }
 
     const carts = await ShoppingCart.find({ customer_id })
+    .select("-_id")
       .populate({
         path: "cart_items", 
         model: "CartItem",   
+        select: "-cart_id -_id  -__v", 
+
         populate: {
           path: "product_id", 
           model: "Product", 
-          select: "-stock -isVisibility", 
+          select: "-stock -isVisibility  -__v", 
 
         },
       });
