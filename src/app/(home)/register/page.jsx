@@ -22,7 +22,7 @@ const Page = () => {
   const notifyLogin = () => {
     toast.info("SignUp is success! Now you can login.", {
       position: "top-center",
-      autoClose: 5000,
+      autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: false,
       pauseOnHover: true,
@@ -37,7 +37,7 @@ const Page = () => {
       notifyLogin();
       setTimeout(() => {
         router.push("/login"); 
-      }, 5000); 
+      }, 1000); 
     }
   }, [isAuthenticated, router]);
 
