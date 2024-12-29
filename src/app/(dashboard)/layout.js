@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import '../css/globals.css';
 import ReduxProvider from '../provider'; 
 import Headerdash from "@/components/partials/Headerdash";
+import Footer from "@/components/partials/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,8 @@ export default function RootLayout({ children }) {
 <Headerdash />
 
         {children}
+
+        <Footer />
 
         
         </ReduxProvider>

@@ -5,7 +5,7 @@ import { MdAccountCircle } from "react-icons/md";
 import { AiOutlineFacebook } from "react-icons/ai";
 import { FaInstagram } from "react-icons/fa";
 import Modal from "../ui/modal/Modal";
-import ShoppingCartModal from "../ui/ShoppingCart"; 
+import ShoppingCartModal from "./ShoppingCart"; 
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import Notification from "../ui/Notification";
