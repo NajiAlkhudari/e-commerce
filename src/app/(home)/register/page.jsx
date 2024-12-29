@@ -48,7 +48,7 @@ const Page = () => {
 
   return (
     <div>
-      <Card className="space-y-9" title="Register new account">
+      <Card className="space-y-9" title="Create new account">
         <div className="flex flex-col items-center space-y-4">
           <TextInput
             className="bg-gray-100 text-black mt-1 block w-full py-2 px-14 border-b-2 border-black rounded-md focus:outline-none focus:border-rose-red"
